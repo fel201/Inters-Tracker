@@ -1,0 +1,22 @@
+#menu-wrapper {
+  position: relative;
+  width: 400px;
+}
+
+#hamburguer-button {
+  margin-left: 10px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+#players-wrapper {
+  display: none;
+  position: relative;
+  border: rebeccapurple solid 2px;
+  background-color: rebeccapurple;
+}
+a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.8em;
+}

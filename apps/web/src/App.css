@@ -1,0 +1,17 @@
+:root {
+  --primary-interface-height: 70px;
+  --primary-comments-wrapper-width: 1200px;
+  --primary-comments-wrapper-height: 100px;
+}
+body, html {
+  min-height: 20%;
+  min-width: 20%;
+}
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+

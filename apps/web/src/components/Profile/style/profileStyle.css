@@ -1,0 +1,17 @@
+#profile-wrapper {
+  position: relative;
+  width: 300px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  border: black solid 2px;
+  left: 200px;
+  text-align: center;
+}
+
+
+#summoner-icon {
+  position: relative;
+  width: 200px;
+  padding-top: 20px;
+}

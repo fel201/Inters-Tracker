@@ -1,0 +1,37 @@
+#pre-form-wrapper {
+    border: 1px solid gold;
+    align-self: center;
+    background-color: #BABABA;
+    padding-bottom: 20px;
+}
+.signing {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 400px;
+    min-width: 400px
+}
+input[type="text"] {
+    width: 300px;
+    align-self: center;
+    border-radius: 5px;
+    height: 30px;
+    background-color: aliceblue;
+    color: black;
+}
+input[type="submit"] {
+    position: relative;
+    align-self: center;
+    width: 100px;
+}
+span {
+    position: relative;
+    align-self: center;
+    color: black;
+    right: 75px;
+    top: 10px;
+    width: 150px;
+}
+h2 {
+    align-self: center;
+}

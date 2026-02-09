@@ -1,0 +1,81 @@
+#match-history-container {
+  border: black solid 2px;
+  width: 750px;
+  position: relative;
+  left: 1000px;
+  min-height: 500px;  
+  bottom: 300px;
+}
+
+.match-wrapper {
+  width: 670px;
+  height: 90px;
+  border: red solid 2px;
+  border-radius: 20px;
+  margin-top: 25px;  
+  margin-left: 40px;
+}
+
+
+.summoner-spells-wrapper {
+  position: relative;
+  border: greenyellow solid 2px;
+  width: 25px;
+  height: 55px;
+  bottom: 40px;
+  left: 80px;
+}
+
+.score-wrapper {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  
+  height: 60px;
+  width: 150px;
+  bottom: 100px;
+  left: 150px;
+  font-size: 15px;
+}
+.summoner-spells {
+  height: 25px;
+}
+
+.score-wrapper p {
+  margin: 0;
+}
+
+.runes-wrapper {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  width: 20px;
+  height: 55px;
+  bottom: 160px;
+  left: 115px;
+
+}
+.primaryRunes {
+  align-self: center;
+  width: 30px;
+  height: 30px;
+}
+.secondaryRunes {
+  align-self: center;
+  width: 20px;
+  height: 20px;
+}
+
+.champion-wrapper {
+  position: relative;
+  border: green solid 3px;
+  width: 50px;
+  height: 50px;
+  top: 20px;
+  left: 20px;
+}
+.champion-icon {
+  width: 50px;
+  height: 50px;
+}

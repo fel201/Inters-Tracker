@@ -1,0 +1,42 @@
+p {
+    padding-left: 10px;
+    font-size: 25px;
+}
+#home-flex-container {
+    display: flex;
+    height: 400px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+}
+#home-wrapper {
+    position: relative;
+    height: auto;
+    border: 1px gold solid;
+    display: flex;
+    flex-direction: column;
+    top: 100px;
+    width: 1500px;
+}
+#profile-search {
+    position: relative;
+    justify-content: center;
+    width: 300px;
+    height: 30px;
+    border-radius: 20px;
+ 
+    text-align: center;
+}
+
+#profile-search-form {
+    display: flex;
+    flex-direction: row;
+    align-self: center; 
+}
+
+#search-icon {
+    position: relative;
+    align-self: center; 
+    right: 30px;
+    height: 20px;
+}

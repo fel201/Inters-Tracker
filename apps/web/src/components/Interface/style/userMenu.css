@@ -1,0 +1,22 @@
+#user-pfp {
+    position: relative;
+    
+    width: 50px;
+    height: 40px;    
+}
+#pfp-wrapper {
+    position: relative;
+    border: 1px solid black;
+    border-radius: 50px;
+    width: 50px;
+    height: 40px;
+    right: 5px;
+    align-self: center;
+}
+#pfp-wrapper:hover {
+    background-color: blue;
+}
+#username {
+    color: black;
+    align-self: center;
+}

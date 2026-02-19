@@ -17,10 +17,8 @@ export function Home() {
   return (
     <div id="home-wrapper">
       <p>
-        Hello! This is the 200th OP.GG copy that does the same as any other
-        similar project. But what (probably) distinguishes this project from
-        others is that it's my own and you can comment on other people's league
-        profile :D{" "}
+        Now in Inters Tracker you can view profiles and interact with them,
+        just create an account and you will be able to comment on any profile! 
       </p>
       <form id="profile-search-form" autoComplete="off">
         <input id="profile-search" type="text" name="gameName_tag" placeholder="gameName#Tag" />

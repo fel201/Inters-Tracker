@@ -32,6 +32,7 @@ p {
     display: flex;
     flex-direction: row;
     align-self: center; 
+    padding-bottom: 10px;
 }
 
 #search-icon {

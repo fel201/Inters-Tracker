@@ -33,11 +33,9 @@ export function Menu() {
   }, [menuClick]);
 
   useEffect(() => {
-    console.log("executed");
     const displayInters = async () => {
       handleMenuButton();
       setMenuClick(true);
-      console.log("menuclick set");
     };
     const menuButton = document.getElementById(
       "hamburguer-button",

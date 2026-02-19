@@ -35,9 +35,15 @@ p {
     padding-bottom: 10px;
 }
 
+
 #search-icon {
     position: relative;
     align-self: center; 
     right: 30px;
     height: 20px;
+}
+
+.region-select {
+    border-radius: 20px;
+    width: 150px;
 }

@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "./entryStyle.css";
 import { registerUser } from "../../functions/server_api/entry/registerUser";
 export function Register() {
+  const formRef = useRef<HTMLFormElement>(null);
   useEffect(() => {
-    const form = document.getElementById("register-form");
-    if (form != null) {
-      form.addEventListener("submit", registerUser);
+    
+    if (formRef.current != null) {
+      formRef.current.addEventListener("submit", registerUser);
     }
     return () => {
-      form!.removeEventListener("submit", registerUser);
+      formRef.current?.removeEventListener("submit", registerUser);
     }
   }, []);
   return (

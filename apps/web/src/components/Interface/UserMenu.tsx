@@ -1,42 +1,45 @@
-import * as React from "react";
+import { useRef, useState } from "react";
 import "./style/userMenu.css";
 import pfp from "../../assets/user.png";
-import { useEffect } from "react";
-
+import { UserOptions } from "./UserOptions";
 interface UserMenuProps {
-  username: string
-};
-
-function toggleUserMenu() {
-  const userMenu = document.getElementById("menu-segment");
-  if (userMenu) {
-    if (userMenu.style.display == 'none') {
-      userMenu.style.display = 'flex';
-    }
-    else {
-      userMenu.style.display = 'none';
-    }
-  }
+  username: string;
 }
 
-
+function toggleUserOptions(
+  userOptionsDisplay: string,
+  setUserOptionsDisplay: React.Dispatch<React.SetStateAction<string>>,
+) {
+  console.log(userOptionsDisplay);
+  if (userOptionsDisplay == "none") {
+    setUserOptionsDisplay("flex");
+  } 
+  else {
+    setUserOptionsDisplay("none");
+  } 
+}
 
 export function UserMenu({ username }: UserMenuProps) {
-    useEffect(() => {
-      console.log("user-pfp")
-      const pfp = document.getElementById("user-pfp");
-      
-      if (pfp != null) {
-        console.log("WAT");
-        pfp.addEventListener("click", toggleUserMenu)
-      }
-    }, [])
+  const [userOptionsDisplay, setUserOptionsDisplay] = useState("none");
+  const userPfpRef = useRef<HTMLImageElement | null>(null);
+
   return (
-    <React.Fragment>
+    <div id="interface-user-menu">
       <h3 id="username">{username}</h3>
       <div id="pfp-wrapper">
-        <img src={pfp} id="user-pfp" alt="" />
+        <img
+          src={pfp}
+          onClick={() =>
+            toggleUserOptions(userOptionsDisplay, setUserOptionsDisplay)
+          }
+          ref={userPfpRef}
+          id="user-pfp"
+          alt="pfp"
+        />
       </div>
-    </React.Fragment>
+      <div id="user-menu-options" style={{ display: userOptionsDisplay }}>
+        <UserOptions />
+      </div>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-#menu-segment {
+#user-menu-options {
     position: absolute;
     flex-direction: column;
     align-items: center;
@@ -8,14 +8,14 @@
     background-color: #e6e6e6;
     top: 65px;
     left: 100px;
-    gap: 20px;
+    gap: 10px;
 }
-#menu-segment h6 {
+#user-menu-options h6 {
     height: 10px;
     color: #050505;
-    font-size: larger;
+    font-size: 20px;
 }
-#menu-segment h6:hover {
+#user-menu-options h6:hover {
     color: forestgreen;
     cursor: pointer;
 }

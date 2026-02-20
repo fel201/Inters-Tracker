@@ -3,12 +3,16 @@ import "./menuStyle.css";
 import { accountV1ByPuuid } from "../../functions/riot_api/accountV1";
 import { getInters } from "../../functions/server_api/getInters";
 import type { Account } from "../../types/account_v1";
-import { handleMenuButton } from "../../functions/handleMenuButton";
+import { handleMenuButton} from "../../functions/handleMenuButton";
 import { Loading } from "../Loading/Loading";
 
+interface MenuProps {
+  hamburguerButtonRef: {
+    current: HTMLImageElement | null
+  }
+};
 
-
-export function Menu() {
+export function Menu({ hamburguerButtonRef }: MenuProps) {
   const [inters, setInters] = useState<Array<Account>>([]);
   const [menuClick, setMenuClick] = useState(false);
   useEffect(() => {
@@ -37,12 +41,12 @@ export function Menu() {
       handleMenuButton();
       setMenuClick(true);
     };
-    const menuButton = document.getElementById(
-      "hamburguer-button",
-    ) as HTMLImageElement;
-    menuButton.addEventListener("click", displayInters);
+    if (hamburguerButtonRef.current != null) {
+      hamburguerButtonRef.current.addEventListener("click", displayInters);
+
+    }
     return () => {
-      menuButton.removeEventListener("click", displayInters);
+      hamburguerButtonRef.current?.removeEventListener("click", displayInters);
     };
   }, []);
 

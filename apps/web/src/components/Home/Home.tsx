@@ -10,7 +10,7 @@ export function Home() {
   useEffect(() => {
     async function handleSearchButton(e: SubmitEvent) {
       e.preventDefault();
-      console.log(e);
+
       const gameName_tag = (
         e.target as HTMLFormElement
       ).gameName_tag.value.split("#");

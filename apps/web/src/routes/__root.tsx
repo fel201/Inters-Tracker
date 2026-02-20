@@ -3,6 +3,7 @@ import { Menu } from '../components/Menu/Menu'
 import threeBars from '../assets/icons8-cardápio-50.png'
 import { Interface } from '../components/Interface/Interface'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { useRef } from 'react'
 export const Route = createRootRoute({
   component: InterfaceLayOut,
   loader: async (): Promise<CookieListItem | null> => {
@@ -12,6 +13,7 @@ export const Route = createRootRoute({
 })
 
 function InterfaceLayOut() {
+  const hamburguerButtonRef = useRef<HTMLImageElement>(null);
   const usernameCookie = Route.useLoaderData();
   return (
     <Fragment>
@@ -19,8 +21,8 @@ function InterfaceLayOut() {
         <Interface usernameCookie={usernameCookie}/>
       </div>
       <div id="menu-wrapper">
-        <Menu></Menu>
-        <img id="hamburguer-button" src={threeBars} alt="" />
+        <Menu hamburguerButtonRef={hamburguerButtonRef}></Menu>
+        <img id="hamburguer-button" ref={hamburguerButtonRef} src={threeBars} alt="" />
      </div>
       <Outlet />
     </Fragment>

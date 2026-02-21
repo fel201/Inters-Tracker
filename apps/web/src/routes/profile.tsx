@@ -14,11 +14,13 @@ import type { Summoner } from "../types/summoner_v4";
 interface PlayerProfile {
   gameName: string;
   tag: string;
+  region: string;
 }
 interface Loader {
   account: Account;
   rankedData: RankedData;
   summonerParsed: Summoner;
+  region: string;
 }
 export const Route = createFileRoute("/profile")({
   component: ProfileLayOut,
@@ -26,18 +28,22 @@ export const Route = createFileRoute("/profile")({
     return {
       gameName: (search.gameName as string) ?? "",
       tag: (search.tag as string) ?? "",
+      region: (search.region as string) ?? "",
     };
   },
   loaderDeps: ({ search }) => ({
     gameName: search.gameName,
     tag: search.tag,
+    region: search.region
   }),
   loader: async ({ deps }): Promise<Loader | null> => {
-    const account = await accountV1(deps.gameName, deps.tag);
+    console.log(deps.tag);
+    const account = await accountV1(deps.gameName, deps.tag, deps.region);
     if (!isValidAccount(account)) return null;
-    const rankedData = await leagueV4(account.puuid);
-    const summonerParsed = await summonerV4(account.puuid);
-    return { account, rankedData, summonerParsed };
+    const rankedData = await leagueV4(account.puuid, deps.region);
+    const summonerParsed = await summonerV4(account.puuid, deps.region);
+    const region = deps.region;
+    return { account, rankedData, summonerParsed, region };
   },
 });
 
@@ -46,7 +52,7 @@ function isValidAccount(account: Account): account is Account {
 }
 function ProfileLayOut() {
   const profile_loader = Route.useLoaderData();
-
+  
   return (
     <React.Fragment>
       <div id="profile-wrapper">
@@ -64,7 +70,7 @@ function ProfileLayOut() {
         {profile_loader == null ? (
           ""
         ) : (
-          <Matches puuid={profile_loader.account.puuid} />
+          <Matches puuid={profile_loader.account.puuid} region={profile_loader.region}/>
         )}
       </div>
       <div id="comments-wrapper">

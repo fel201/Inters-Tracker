@@ -24,7 +24,7 @@ export function Home() {
         to: "/profile",
         search: {
           gameName: gameName_tag[0],
-          tag: parseInt(gameName_tag[1]),
+          tag: gameName_tag[1],
           region: region,
         },
       });

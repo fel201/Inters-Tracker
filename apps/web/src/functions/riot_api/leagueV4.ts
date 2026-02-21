@@ -1,7 +1,7 @@
 import type { RankedData } from "../../types/league_v4";
-export async function leagueV4(puuid: string): Promise<RankedData>  {
+export async function leagueV4(puuid: string, region: string): Promise<RankedData>  {
   const league_v4 = await fetch(
-    `https://euw1.api.riotgames.com/lol/league/v4/entries/by-puuid/${puuid}`,
+    `https://${region}1.api.riotgames.com/lol/league/v4/entries/by-puuid/${puuid}`,
     {
       method: "GET",
       headers: {

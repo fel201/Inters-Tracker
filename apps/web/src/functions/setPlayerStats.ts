@@ -7,12 +7,13 @@ export async function setPlayerStats(
   match_information: MatchV5[],
   matchesId: string[],
   puuid: string,
-  player_stats: Array<Player>
+  player_stats: Array<Player>,
+  region: string
 ) {
   
   for (let i = 0; i < 3; i++) {
     
-    match_information[i] = await getMatchInformationV5(matchesId[i]);
+    match_information[i] = await getMatchInformationV5(matchesId[i], region);
     for (let j = 0; j < 10; j++) {
       if (match_information[i].info.participants[j].puuid === puuid) {
         player_stats[i] = {

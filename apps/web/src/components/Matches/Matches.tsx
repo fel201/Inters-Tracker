@@ -14,9 +14,10 @@ import { ChampionIcon } from "./ChampionIcon";
 
 
 interface MatchesProps {
-  puuid: string
+  puuid: string;
+  region: string;
 };
-export function Matches({puuid}: MatchesProps) {
+export function Matches({puuid, region}: MatchesProps) {
   const [matchesInfo, setMatchesInfo] = useState<Array<Player>>([]);
   const [perks, setPerks] = useState<Runes>([]);
   const [isValidPlayer, setisValidPlayer] = useState<Boolean>(false);
@@ -24,11 +25,12 @@ export function Matches({puuid}: MatchesProps) {
 
     const getMatchesStats = async () => {
       setisValidPlayer(true);
-      const matchesId: Array<string> = await last20MatchesV5(puuid);
+      const matchesId: Array<string> = await last20MatchesV5(puuid, region);
+      console.log(matchesId);
       let match_information: Array<MatchV5> = [];
       let player_stats: Array<Player> = [];
 
-      await setPlayerStats(match_information, matchesId, puuid, player_stats);
+      await setPlayerStats(match_information, matchesId, puuid, player_stats, region);
       setMatchesInfo(player_stats);
       const perks: Runes = await runesReforgedJson();
       setPerks(perks);

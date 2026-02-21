@@ -1,11 +1,19 @@
 import type { RankedData } from "../../types/league_v4";
 import './style/profileStyle.css';
-import type { Loader } from "../../routes/profile";
-function isNotUnranked(rankedInfo: RankedData): rankedInfo is RankedData  {
-  return (rankedInfo as RankedData).rank !== undefined;
+import type { Account } from "../../types/account_v1";
+import type { Summoner } from "../../types/summoner_v4";
+function isNotUnranked(rankedData: RankedData): rankedData is RankedData  {
+  return (rankedData as RankedData).rank !== undefined;
 }
-
-export function Profile({ profile }: Loader) {
+export interface ProfileProps {
+  profile: {
+    account: Account;
+    rankedData: Array<RankedData>;
+    summonerInfo: Summoner;
+    region: string;
+  }
+}
+export function Profile({ profile }: ProfileProps) {
   if (profile == undefined) {
     return (
       <div id="profile-wrapper">
@@ -22,9 +30,9 @@ export function Profile({ profile }: Loader) {
   
   gamename_tag = profile.account.gameName + "#" + profile.account.tagLine;
   
-  if (isNotUnranked(profile.rankedInfo[0])) {
-    rank = profile.rankedInfo[0].tier + " " + profile.rankedInfo[0].rank;
-    lp = profile.rankedInfo[0].leaguePoints;
+  if (isNotUnranked(profile.rankedData[0])) {
+    rank = profile.rankedData[0].tier + " " + profile.rankedData[0].rank;
+    lp = profile.rankedData[0].leaguePoints;
   }
   else {
     rank = "UNRANKED";

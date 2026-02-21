@@ -9,12 +9,14 @@ import { summonerV4 } from "../functions/riot_api/summonerV4";
 import type { Account } from "../types/account_v1";
 import type { RankedData } from "../types/league_v4";
 import type { Summoner } from "../types/summoner_v4";
-interface PlayerProfile {
+
+interface PlayerQuery {
   gameName: string;
   tag: string;
   region: string;
 }
-export interface Loader {
+
+interface Loader {
   account: Account;
   rankedData: RankedData;
   summonerInfo: Summoner;
@@ -23,7 +25,7 @@ export interface Loader {
 
 export const Route = createFileRoute("/profile")({
   component: ProfileLayOut,
-  validateSearch: (search: Record<string, unknown>): PlayerProfile => {
+  validateSearch: (search: Record<string, unknown>): PlayerQuery => {
     return {
       gameName: (search.gameName as string) ?? "",
       tag: (search.tag as string) ?? "",
@@ -54,8 +56,8 @@ function ProfileLayOut() {
   return (
     <>
       <Profile profile={profileLoader} />
-      <Matches puuid={profileLoader.account.puuid} region={profileLoader.region} />
-      <Comments puuid={profileLoader.account.puuid} />
+      <Matches profile={profileLoader} />
+      <Comments profile={profileLoader} />
     </>
   );
 }

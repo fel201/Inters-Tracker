@@ -14,10 +14,10 @@ export interface ProfileProps {
   }
 }
 export function Profile({ profile }: ProfileProps) {
-  if (profile == undefined) {
+  if (profile.summonerInfo.puuid == undefined) {
     return (
       <div id="profile-wrapper">
-        "PROFILE NOT FOUND"
+        PROFILE NOT FOUND
       </div>
     )
   }

@@ -51,7 +51,7 @@ export function Comments({ puuid }: CommentsProps) {
   }, []);
 
   return (
-    <>
+    <div id="comments-wrapper">
       <form id="comment-form" action="">
         <textarea
           maxLength={140}
@@ -80,6 +80,6 @@ export function Comments({ puuid }: CommentsProps) {
           <Loading />
         )}
       </div>
-    </>
+    </div>
   );
 }

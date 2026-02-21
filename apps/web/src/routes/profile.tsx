@@ -1,6 +1,5 @@
 import "../App.css";
 import { createFileRoute } from "@tanstack/react-router";
-import { ProfileNotFound } from "../components/Profile/ProfileNotFound";
 import * as React from "react";
 import { Profile } from "../components/Profile/Profile";
 import { Matches } from "../components/Matches/Matches";
@@ -9,18 +8,20 @@ import { accountV1 } from "../functions/riot_api/accountV1";
 import { leagueV4 } from "../functions/riot_api/leagueV4";
 import { summonerV4 } from "../functions/riot_api/summonerV4";
 import type { Account } from "../types/account_v1";
-import type { RankedData } from "../types/league_v4";
+import type { rankedInfo } from "../types/league_v4";
 import type { Summoner } from "../types/summoner_v4";
 interface PlayerProfile {
   gameName: string;
   tag: string;
   region: string;
 }
-interface Loader {
-  account: Account;
-  rankedData: RankedData;
-  summonerParsed: Summoner;
-  region: string;
+export interface Loader {
+  profile: {
+    account: Account;
+    rankedInfo: rankedInfo;
+    summonerInfo: Summoner;
+    region: string;
+  }
 }
 export const Route = createFileRoute("/profile")({
   component: ProfileLayOut,
@@ -37,13 +38,12 @@ export const Route = createFileRoute("/profile")({
     region: search.region
   }),
   loader: async ({ deps }): Promise<Loader | null> => {
-    console.log(deps.tag);
     const account = await accountV1(deps.gameName, deps.tag, deps.region);
     if (!isValidAccount(account)) return null;
-    const rankedData = await leagueV4(account.puuid, deps.region);
-    const summonerParsed = await summonerV4(account.puuid, deps.region);
+    const rankedInfo = await leagueV4(account.puuid, deps.region);
+    const summonerInfo = await summonerV4(account.puuid, deps.region);
     const region = deps.region;
-    return { account, rankedData, summonerParsed, region };
+    return { account, rankedInfo, summonerInfo, region };
   },
 });
 
@@ -51,35 +51,13 @@ function isValidAccount(account: Account): account is Account {
   return (account as Account).gameName !== undefined;
 }
 function ProfileLayOut() {
-  const profile_loader = Route.useLoaderData();
+  const profileLoader = Route.useLoaderData();
   
   return (
-    <React.Fragment>
-      <div id="profile-wrapper">
-        {profile_loader == null ? (
-          <ProfileNotFound />
-        ) : (
-          <Profile
-            account={profile_loader.account}
-            rankedInfo={profile_loader.rankedData}
-            summonerInfo={profile_loader.summonerParsed}
-          />
-        )}
-      </div>
-      <div id="match-history-container">
-        {profile_loader == null ? (
-          ""
-        ) : (
-          <Matches puuid={profile_loader.account.puuid} region={profile_loader.region}/>
-        )}
-      </div>
-      <div id="comments-wrapper">
-        {profile_loader == null ? (
-          ""
-        ) : (
-          <Comments puuid={profile_loader.account.puuid} />
-        )}
-      </div>
-    </React.Fragment>
+    <>
+      <Profile profile={profileLoader} />
+      <Matches puuid={profileLoader.account.puuid} region={profileLoader.region} />
+      <Comments puuid={profileLoader.account.puuid} />
+    </>
   );
 }

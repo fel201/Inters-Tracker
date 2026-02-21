@@ -1,5 +1,9 @@
 import type { Account } from "../../types/account_v1";
 import { getNearestCluster } from "./getNearestCluster";
+
+// in AccountV1, you can access any account in any region
+// but it's always good to use the nearest cluster
+
 export async function accountV1(name: string, tag: string, region: string): Promise<Account> {
   const cluster = getNearestCluster(region);
   const URL = `https://${cluster}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${name}/${tag}`;

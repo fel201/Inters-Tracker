@@ -26,7 +26,6 @@ export function Matches({puuid, region}: MatchesProps) {
     const getMatchesStats = async () => {
       setisValidPlayer(true);
       const matchesId: Array<string> = await last20MatchesV5(puuid, region);
-      console.log(matchesId);
       let match_information: Array<MatchV5> = [];
       let player_stats: Array<Player> = [];
 
@@ -42,7 +41,8 @@ export function Matches({puuid, region}: MatchesProps) {
   }, []);
 
   return (
-    <>
+    
+    <div id="match-history-container">
       {matchesInfo.map((player_info) => {
         if (!isValidPlayer) return;
         let primaryRuneUrl: string | undefined = undefined;
@@ -51,7 +51,7 @@ export function Matches({puuid, region}: MatchesProps) {
          ({ primaryRuneUrl, secondRuneUrl } = definePerks(perks, player_info, primaryRuneUrl, secondRuneUrl));
         
         return (
-          <div
+          <div 
             className="match-wrapper"
             style={{
               backgroundColor: player_info.win ? "#005073" : "#751912",
@@ -65,7 +65,8 @@ export function Matches({puuid, region}: MatchesProps) {
           </div>
         );
       })}
-    </>
+            
+    </div>
   );
 }
 

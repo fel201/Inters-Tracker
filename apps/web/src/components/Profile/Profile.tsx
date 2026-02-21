@@ -1,19 +1,18 @@
 import type { RankedData } from "../../types/league_v4";
-import type { Summoner } from "../../types/summoner_v4";
 import './style/profileStyle.css';
-import type { Account } from "../../types/account_v1";
-
-interface ProfileProps {
-  account: Account,
-  rankedInfo: RankedData,
-  summonerInfo: Summoner
-};
+import type { Loader } from "../../routes/profile";
 function isNotUnranked(rankedInfo: RankedData): rankedInfo is RankedData  {
   return (rankedInfo as RankedData).rank !== undefined;
 }
 
-export function Profile({account, rankedInfo, summonerInfo}: ProfileProps) {
-  
+export function Profile({ profile }: Loader) {
+  if (profile == undefined) {
+    return (
+      <div id="profile-wrapper">
+        "PROFILE NOT FOUND"
+      </div>
+    )
+  }
   
   let gamename_tag: string | null = null;
   let rank: string | null = null; 
@@ -21,24 +20,26 @@ export function Profile({account, rankedInfo, summonerInfo}: ProfileProps) {
   let url: string | null = null;
 
   
-  gamename_tag = account.gameName + "#" + account.tagLine;
-  if (isNotUnranked(rankedInfo)) {
-    rank = rankedInfo.tier + " " + rankedInfo.rank;
-    lp = rankedInfo.leaguePoints;
+  gamename_tag = profile.account.gameName + "#" + profile.account.tagLine;
+  
+  if (isNotUnranked(profile.rankedInfo[0])) {
+    rank = profile.rankedInfo[0].tier + " " + profile.rankedInfo[0].rank;
+    lp = profile.rankedInfo[0].leaguePoints;
   }
   else {
     rank = "UNRANKED";
   } 
-  url = `https://ddragon.leagueoflegends.com/cdn/16.1.1/img/profileicon/${summonerInfo.profileIconId}.png`;
+  url = `https://ddragon.leagueoflegends.com/cdn/16.1.1/img/profileicon/${profile.summonerInfo.profileIconId}.png`;
+  
 
   return (
-    <div>
+    <div id="profile-wrapper">
       
       {url != null ? <img id="summoner-icon" src={url} alt="Summoner Icon" /> : ""}
-      {gamename_tag != null ? <h2>{gamename_tag}</h2> : "NO PROFILE DETECTED"}
+      {<h2>{gamename_tag}</h2>}
       <br />
       <h3>
-        {rank} <br /> {lp == undefined ? '' : lp + ' LP'} 
+        {rank} <br /> {lp == null ? '' : lp + ' LP'} 
       </h3>
     </div>
   );

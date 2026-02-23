@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import "./style/menuSegment.css";
 
 
@@ -8,6 +8,7 @@ import "./style/menuSegment.css";
 
 
 export function UserOptions() {
+  const navigate = useNavigate();
   const router = useRouter();
   const logOutAnchorRef = useRef<HTMLHeadingElement | null>(null);
   useEffect(() => {
@@ -19,6 +20,7 @@ export function UserOptions() {
         credentials: "include",
       });
       router.invalidate();
+      navigate({to: '/login'});
     }
     
     if (logOutAnchorRef.current != null) {

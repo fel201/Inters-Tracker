@@ -21,7 +21,7 @@ export function Register() {
         <span>* Email</span>
         <input type="text" name="email" />
         <span>* Password</span>
-        <input type="text" name="password" />
+        <input type="password" name="password" />
         <span>* Confirm Password</span>
         <input type="text" name="confirm_password" />
         <input type="submit" value={"Register"} />

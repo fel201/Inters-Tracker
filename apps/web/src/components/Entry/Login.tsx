@@ -18,7 +18,7 @@ export function Login() {
                 <span>* Email</span>
                 <input type="text" name="email"/>
                 <span>* Password</span>
-                <input type="text" name="password" />
+                <input type="password" name="password" />
                 <input type="submit" value="Sign in"/>
             </form>
         </div>

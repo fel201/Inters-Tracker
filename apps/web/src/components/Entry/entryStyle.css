@@ -11,7 +11,7 @@
     min-height: 400px;
     min-width: 400px
 }
-input[type="text"] {
+input[type="text"], input[type="password"] {
     width: 300px;
     align-self: center;
     border-radius: 5px;

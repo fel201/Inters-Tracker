@@ -1,14 +1,15 @@
+import { Link } from "@tanstack/react-router";
 import "./style/interfaceStyle.css";
-import * as React from "react";
+
 export function AuthenticationButtons() {
   return (
-    <React.Fragment>
-      <a href="/login">
+    <>
+      <Link to="/login">
         <button>Login</button>
-      </a>
-      <a href="/register">
+      </Link>
+      <Link to="/register">
         <button>Register</button>
-      </a>
-    </React.Fragment>
+      </Link>
+    </>
   );
 }

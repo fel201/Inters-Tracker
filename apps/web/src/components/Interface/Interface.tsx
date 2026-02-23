@@ -18,12 +18,14 @@ export function Interface({usernameCookie}: InterfaceProps) {
     }
   }, []);
   return (
-    <div id="inner-interface-elements">
-      <a href="/">
-        <img src={logo} alt="Logo" id="logo" />
-      </a>
-      <div id="interface-elements">
-        {interfaceUserMenu}
+    <div id="interface-wrapper" >
+      <div id="inner-interface-elements">
+        <a href="/">
+          <img src={logo} alt="Logo" id="logo" />
+        </a>
+        <div id="interface-elements">
+          {interfaceUserMenu}
+        </div>
       </div>
     </div>
   );

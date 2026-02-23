@@ -52,21 +52,23 @@ export function Menu({ hamburguerButtonRef }: MenuProps) {
   }, []);
 
   return (
-    <div id="players-wrapper">
-      <h2>Saved players:</h2>
-      <br />
-      {inters.length != 0 ? inters.map((inter) => {
-        let href = "?gameName=" + inter.gameName + "&tag=" + inter.tagLine;
-        return (
-          <>
-            
-            <a href={href}>
-              {inter.gameName}#{inter.tagLine}
-            </a>
-            <br />
-          </>
-        );
-      }) : <Loading/>}
-    </div>
+    <div id="menu-wrapper">
+      <div id="players-wrapper">
+        <h2>Saved players:</h2>
+        <br />
+        {inters.length != 0 ? inters.map((inter) => {
+          let href = "?gameName=" + inter.gameName + "&tag=" + inter.tagLine;
+          return (
+            <>
+              
+              <a href={href}>
+                {inter.gameName}#{inter.tagLine}
+              </a>
+              <br />
+            </>
+          );
+        }) : <Loading/>}
+      </div>
+     </div>
   );
 }

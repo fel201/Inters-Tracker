@@ -18,11 +18,12 @@ export function Menu({ hamburguerButtonRef }: MenuProps) {
   useEffect(() => {
     const fetchInters = async () => {
       const request = await getInters();
+      console.log(request);
       let players: Array<Account> = [];
       let accountObject: Account;
 
       for (let i = 0; i < request.inters.length; i++) {
-        accountObject = await accountV1ByPuuid(request.inters[i].puuid);
+        accountObject = await accountV1ByPuuid(request.inters[i].puuid, request.inters[i].region);
         players.push(accountObject);
       }
       setInters(players);

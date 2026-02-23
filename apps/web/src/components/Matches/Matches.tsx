@@ -12,6 +12,7 @@ import { RunesDisplay } from "./RunesDisplay";
 import { PlayerStats } from "./PlayerStats";
 import { ChampionIcon } from "./ChampionIcon";
 import type { ProfileProps } from "../Profile/Profile";
+import { Loading } from "../Loading/Loading";
 
 export function Matches({ profile }: ProfileProps) {
   const [matchesInfo, setMatchesInfo] = useState<Array<Player>>([]);
@@ -41,12 +42,12 @@ export function Matches({ profile }: ProfileProps) {
     getMatchesStats();
     return () => {};
   }, []);
-  if (profile == null) {
+  if (profile.summonerInfo == undefined) {
     return null;
   }
   return (
     <div id="match-history-container">
-      {matchesInfo.map((player_info) => {
+      {matchesInfo.length == 0 ? <Loading /> : matchesInfo.map((player_info) => {
         if (!isValidPlayer) return;
         let primaryRuneUrl: string | undefined = undefined;
         let secondRuneUrl: string | undefined = undefined;

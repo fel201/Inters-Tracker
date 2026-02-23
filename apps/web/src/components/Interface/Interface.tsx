@@ -3,7 +3,7 @@ import logo from "../../assets/logo.png";
 import "./style/interfaceStyle.css";
 import { type ReactElement, useEffect, useState } from "react";
 import { UserMenu } from "./UserMenu";
-
+import { Link } from "@tanstack/react-router";
 
 
 interface InterfaceProps {
@@ -24,9 +24,9 @@ export function Interface({usernameCookie}: InterfaceProps) {
   return (
     <div id="interface-wrapper" >
       <div id="inner-interface-elements">
-        <a href="/">
+        <Link to="/">
           <img src={logo}></img>
-        </a>
+        </Link>
         <div id="interface-elements">
           {interfaceUserMenu}
         </div>

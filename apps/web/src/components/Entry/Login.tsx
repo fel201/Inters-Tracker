@@ -16,10 +16,10 @@ export function Login() {
             <form className="signing" ref={formRef} id="login-form">
                 <h2>Login</h2>
                 <span>* Email</span>
-                <input type="text" name="email"/>
+                <input type="text" className='input-field' name="email"/>
                 <span>* Password</span>
-                <input type="password" name="password" />
-                <input type="submit" value="Sign in"/>
+                <input type="password" className='input-field' name="password" />
+                <input type="submit" id="submit-button" value="Sign in"/>
             </form>
         </div>
     )

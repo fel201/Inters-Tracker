@@ -17,14 +17,14 @@ export function Register() {
       <form className="signing" id="register-form">
         <h2>Register</h2>
         <span>* Username</span>
-        <input type="text" name="username" />
+        <input type="text" name="username" className='input-field'/>
         <span>* Email</span>
-        <input type="text" name="email" />
+        <input type="text" name="email" className='input-field'/>
         <span>* Password</span>
-        <input type="password" name="password" />
+        <input type="password" name="password" className='input-field'/>
         <span>* Confirm Password</span>
-        <input type="text" name="confirm_password" />
-        <input type="submit" value={"Register"} />
+        <input type="text" name="confirm_password" className='input-field'/>
+        <input type="submit" value={"Register"} id="submit-button"/>
       </form>
     </div>
   );

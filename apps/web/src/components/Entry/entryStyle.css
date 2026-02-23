@@ -11,7 +11,7 @@
     min-height: 400px;
     min-width: 400px
 }
-input[type="text"], input[type="password"] {
+.input-field {
     width: 300px;
     align-self: center;
     border-radius: 5px;
@@ -19,7 +19,7 @@ input[type="text"], input[type="password"] {
     background-color: aliceblue;
     color: black;
 }
-input[type="submit"] {
+#submit-button {
     position: relative;
     align-self: center;
     width: 100px;

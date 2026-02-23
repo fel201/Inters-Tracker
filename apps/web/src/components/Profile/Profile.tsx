@@ -2,9 +2,7 @@ import type { RankedData } from "../../types/league_v4";
 import './style/profileStyle.css';
 import type { Account } from "../../types/account_v1";
 import type { Summoner } from "../../types/summoner_v4";
-function isNotUnranked(rankedData: RankedData): rankedData is RankedData  {
-  return (rankedData as RankedData).rank !== undefined;
-}
+
 export interface ProfileProps {
   profile: {
     account: Account;
@@ -13,8 +11,12 @@ export interface ProfileProps {
     region: string;
   }
 }
+
+
+
 export function Profile({ profile }: ProfileProps) {
-  if (profile.summonerInfo.puuid == undefined) {
+  console.log(profile);
+  if (profile.summonerInfo == undefined || profile == null) {
     return (
       <div id="profile-wrapper">
         PROFILE NOT FOUND
@@ -30,7 +32,7 @@ export function Profile({ profile }: ProfileProps) {
   
   gamename_tag = profile.account.gameName + "#" + profile.account.tagLine;
   
-  if (isNotUnranked(profile.rankedData[0])) {
+  if (profile.rankedData.length > 0) {
     rank = profile.rankedData[0].tier + " " + profile.rankedData[0].rank;
     lp = profile.rankedData[0].leaguePoints;
   }

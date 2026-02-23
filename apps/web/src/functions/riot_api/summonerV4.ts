@@ -1,4 +1,6 @@
-export async function summonerV4(puuid: string, region: string) {
+import type { Summoner } from "../../types/summoner_v4";
+
+export async function summonerV4(puuid: string, region: string): Promise<Summoner> {
   const summoner_v4 = await fetch(
     `https://${region}1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`,
     {

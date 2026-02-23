@@ -48,7 +48,7 @@ export function Comments({ profile }: ProfileProps) {
     fetchComments();
   }, []);
 
-  if (profile.summonerInfo.puuid == undefined) {
+  if (profile.summonerInfo == undefined) {
     return null;
   }
 

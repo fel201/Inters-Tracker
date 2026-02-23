@@ -10,17 +10,26 @@ import type { Account } from "../types/account_v1";
 import type { RankedData } from "../types/league_v4";
 import type { Summoner } from "../types/summoner_v4";
 
+function accountExists(account: Account): account is Account {
+  return (account as Account).gameName !== undefined;
+}
+
 interface PlayerQuery {
   gameName: string;
   tag: string;
   region: string;
 }
 
-interface Loader {
+interface ProfileFound {
   account: Account;
   rankedData: RankedData;
   summonerInfo: Summoner;
   region: string;
+}
+
+interface ProfileNotFound {
+  status: string;
+  accountExistsElsewhere: boolean;
 }
 
 export const Route = createFileRoute("/profile")({
@@ -37,19 +46,32 @@ export const Route = createFileRoute("/profile")({
     tag: search.tag,
     region: search.region
   }),
-  loader: async ({ deps }): Promise<Loader | null> => {
+  loader: async ({ deps }): Promise<ProfileFound | ProfileNotFound> => {
+    const errObject: ProfileNotFound = {
+      status: "not_found",
+      accountExistsElsewhere: false
+    };
+
     const account = await accountV1(deps.gameName, deps.tag, deps.region);
-    if (!isValidAccount(account)) return null;
-    const rankedData = await leagueV4(account.puuid, deps.region);
+    if (!accountExists(account)) {
+      return errObject;
+    };
     const summonerInfo = await summonerV4(account.puuid, deps.region);
+
+    // if the code gets past the previous conditional but not this one,
+    // that probably means the account exists, but it's in a different region
+    if (summonerInfo.puuid == undefined) {
+      errObject.accountExistsElsewhere = true;
+      return errObject;
+    };
+
+    const rankedData = await leagueV4(account.puuid, deps.region);
     const region = deps.region;
     return { account, rankedData, summonerInfo, region };
   },
 });
 
-function isValidAccount(account: Account): account is Account {
-  return (account as Account).gameName !== undefined;
-}
+
 function ProfileLayOut() {
   const profileLoader = Route.useLoaderData();
   

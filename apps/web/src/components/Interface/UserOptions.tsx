@@ -1,20 +1,26 @@
 import { useEffect, useRef } from "react";
+import { useRouter } from "@tanstack/react-router";
 import "./style/menuSegment.css";
 
 
 
-async function endSession() {
-  await cookieStore.delete("username");
-  await cookieStore.delete("user_id");
-  const request = await fetch("http://localhost:3000/api/session", {
-    method: "DELETE",
-    credentials: "include",
-  });
-}
+
+
 
 export function UserOptions() {
+  const router = useRouter();
   const logOutAnchorRef = useRef<HTMLHeadingElement | null>(null);
   useEffect(() => {
+    const endSession = async () => {
+      await cookieStore.delete("username");
+      await cookieStore.delete("user_id");
+      await fetch("http://localhost:3000/api/session", {
+        method: "DELETE",
+        credentials: "include",
+      });
+      router.invalidate();
+    }
+    
     if (logOutAnchorRef.current != null) {
       logOutAnchorRef.current.addEventListener("click", endSession);
     }

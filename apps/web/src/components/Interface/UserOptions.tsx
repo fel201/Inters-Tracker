@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import "./style/menuSegment.css";
+import { deleteUserCookies } from "../../functions/server_api/deleteUserCookies";
 
 
 
@@ -13,12 +14,7 @@ export function UserOptions() {
   const logOutAnchorRef = useRef<HTMLHeadingElement | null>(null);
   useEffect(() => {
     const endSession = async () => {
-      await cookieStore.delete("username");
-      await cookieStore.delete("user_id");
-      await fetch("http://localhost:3000/api/session", {
-        method: "DELETE",
-        credentials: "include",
-      });
+      await deleteUserCookies();
       router.invalidate();
       navigate({to: '/login'});
     }

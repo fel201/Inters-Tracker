@@ -4,6 +4,7 @@ import { retrieveProfileComments } from "../../functions/server_api/retrieveProf
 import { handleCommentEvent } from "../../functions/handleCommentEvent";
 import { Loading } from "../Loading/Loading";
 import type { ProfileProps } from "./Profile";
+import { useNavigate } from "@tanstack/react-router";
 type UserComment = [
   {
     content: string;
@@ -18,21 +19,22 @@ function hasComments(comments: UserComment): comments is UserComment {
 }
 
 export function Comments({ profile }: ProfileProps) {
-  const submitButtonRef = useRef<HTMLButtonElement | null>(null);
+  const navigate = useNavigate();
+  const submitCommentRef = useRef<HTMLButtonElement | null>(null);
   const [comments, setComments] = useState<UserComment | null>(null);
   useEffect(() => {
     const handleCommentSubmission = async (event: MouseEvent) => {
       await handleCommentEvent(event, profile.account.puuid);
     };
 
-    if (submitButtonRef.current != null) {
-      submitButtonRef.current.addEventListener(
+    if (submitCommentRef.current != null) {
+      submitCommentRef.current.addEventListener(
         "click",
         handleCommentSubmission,
       );
     }
     return () => {
-      submitButtonRef.current?.removeEventListener(
+      submitCommentRef.current?.removeEventListener(
         "click",
         handleCommentSubmission,
       );
@@ -61,7 +63,7 @@ export function Comments({ profile }: ProfileProps) {
           placeholder="Write a comment (140 character limit)"
           name="comment"
         ></textarea>
-        <button id="submit-button">Comment</button>
+        <button id="submit-comment" ref={submitCommentRef}>Comment</button>
       </form>
       <div className="comments">
         {comments != null ? (

@@ -17,7 +17,7 @@
   min-height: var(--primary-comments-wrapper-height);  
 }
 
-#submit-button {
+#submit-comment {
     background-color: green;
     align-self: center;
     width: 150px;

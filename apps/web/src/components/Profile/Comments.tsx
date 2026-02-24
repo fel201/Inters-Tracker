@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { CommentForm } from "./CommentForm";
 import "./style/comments.css";
 import { retrieveProfileComments } from "../../functions/server_api/retrieveProfileComments";
-import { handleCommentEvent } from "../../functions/handleCommentEvent";
 import { Loading } from "../Loading/Loading";
 import type { ProfileProps } from "./Profile";
-import { useNavigate } from "@tanstack/react-router";
 type UserComment = [
   {
     content: string;
@@ -19,27 +18,8 @@ function hasComments(comments: UserComment): comments is UserComment {
 }
 
 export function Comments({ profile }: ProfileProps) {
-  const navigate = useNavigate();
-  const submitCommentRef = useRef<HTMLButtonElement | null>(null);
   const [comments, setComments] = useState<UserComment | null>(null);
-  useEffect(() => {
-    const handleCommentSubmission = async (event: MouseEvent) => {
-      await handleCommentEvent(event, profile.account.puuid);
-    };
 
-    if (submitCommentRef.current != null) {
-      submitCommentRef.current.addEventListener(
-        "click",
-        handleCommentSubmission,
-      );
-    }
-    return () => {
-      submitCommentRef.current?.removeEventListener(
-        "click",
-        handleCommentSubmission,
-      );
-    };
-  }, []);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -56,15 +36,7 @@ export function Comments({ profile }: ProfileProps) {
 
   return (
     <div id="comments-wrapper">
-      <form id="comment-form" action="">
-        <textarea
-          maxLength={140}
-          id="comment-textarea"
-          placeholder="Write a comment (140 character limit)"
-          name="comment"
-        ></textarea>
-        <button id="submit-comment" ref={submitCommentRef}>Comment</button>
-      </form>
+      <CommentForm profile={profile}></CommentForm>
       <div className="comments">
         {comments != null ? (
           comments.map((comment) => {

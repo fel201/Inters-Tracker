@@ -9,14 +9,17 @@ interface UserDB {
   id: number
 };
 
-function createToken(user: Array<UserDB>) {
+function createToken(user: Array<UserDB>, isRefresh: boolean) {
+  let expiration_time: number = 900;
+  if (isRefresh) expiration_time = 10*10*9*8*7*12;
+  
   const token = jwt.sign(
     {
       sub: user[0].id,
       name: user[0].username,
     },
     ENV.JWT_KEY,
-    { algorithm: "HS256", expiresIn: 900 },
+    { algorithm: "HS256", expiresIn: expiration_time },
   );
   return token;
 }
@@ -45,8 +48,8 @@ app.post("/session", async (req, res) => {
     rows[0].password,
   );
   if (!valid_password) return res.sendStatus(401);
-  const access_token = createToken(rows);
-  const refresh_token = createToken(rows);
+  const access_token = createToken(rows, false);
+  const refresh_token = createToken(rows, true);
   res
     .status(201)
     .cookie("jwt", access_token, { httpOnly: true, sameSite: 'lax'})

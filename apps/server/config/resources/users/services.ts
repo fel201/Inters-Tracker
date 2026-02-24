@@ -27,9 +27,9 @@ const app = express.Router();
 app.delete("/session", async (req, res) => {
   console.log("/session DELETE REQUEST");
   res
-    .clearCookie("jwt", { httpOnly: true })
-    .clearCookie("username")
-    .clearCookie("user_id");
+    .clearCookie("jwt", { httpOnly: true, sameSite: 'lax' })
+    .clearCookie("username", {sameSite: 'lax'})
+    .clearCookie("user_id", {sameSite: 'lax'});
   res.status(200).json({
     message: "Session terminated successfully",
   });

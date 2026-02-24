@@ -36,7 +36,7 @@ export function Comments({ profile }: ProfileProps) {
 
   return (
     <div id="comments-wrapper">
-      <CommentForm profile={profile}></CommentForm>
+      <CommentForm profile={profile} />
       <div className="comments">
         {comments != null ? (
           comments.map((comment) => {

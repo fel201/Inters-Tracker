@@ -3,15 +3,23 @@ import bcrypt from "bcrypt";
 import { db } from "../../../db/database.ts";
 import jwt from "jsonwebtoken";
 import { ENV } from "../../env.ts";
-type Register = {
+interface UserDB {
   username: string;
   email: string;
-  password: string;
+  id: number
 };
-type Login = {
-  email: string;
-  password: string;
-};
+
+function createToken(user: Array<UserDB>) {
+  const token = jwt.sign(
+    {
+      sub: user[0].id,
+      name: user[0].username,
+    },
+    ENV.JWT_KEY,
+    { algorithm: "HS256", expiresIn: 900 },
+  );
+  return token;
+}
 
 const saltRounds = 12;
 const app = express.Router();
@@ -37,21 +45,14 @@ app.post("/session", async (req, res) => {
     rows[0].password,
   );
   if (!valid_password) return res.sendStatus(401);
-  const token = jwt.sign(
-    {
-      sub: rows[0].id,
-      name: rows[0].username,
-      admin: false,
-    },
-    ENV.JWT_KEY,
-    { algorithm: "HS256", expiresIn: 60 },
-  );
-
+  const access_token = createToken(rows);
+  const refresh_token = createToken(rows);
   res
     .status(201)
-    .cookie("jwt", token, { httpOnly: true })
-    .cookie("username", rows[0].username)
-    .cookie("user_id", rows[0].id)
+    .cookie("jwt", access_token, { httpOnly: true, sameSite: 'lax'})
+    .cookie("refresh_token", refresh_token, {httpOnly: true, sameSite: 'lax'})
+    .cookie("username", rows[0].username, {sameSite: 'lax'})
+    .cookie("user_id", rows[0].id, {sameSite: 'lax'})
     .json({
       message: "Authentication was successful!",
     });

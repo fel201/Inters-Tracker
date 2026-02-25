@@ -27,6 +27,7 @@ function createToken(user: Array<UserDB>, isRefresh: boolean) {
 const saltRounds = 12;
 const app = express.Router();
 
+
 app.delete("/session", async (req, res) => {
   console.log("/session DELETE REQUEST");
   res
@@ -37,6 +38,7 @@ app.delete("/session", async (req, res) => {
     message: "Session terminated successfully",
   });
 });
+
 app.post("/session", async (req, res) => {
   console.log("/session POST REQUEST");
   const rows = await db.getUserByEmail(req.body.email);

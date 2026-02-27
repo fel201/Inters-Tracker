@@ -1,18 +1,89 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import { db } from "../../../db/database.ts";
+import { UserQuery } from "../../../db/database.ts";
 import jwt from "jsonwebtoken";
 import { ENV } from "../../env.ts";
+const saltRounds = 12;
+
 interface UserDB {
   username: string;
   email: string;
-  id: number
-};
+  id: number;
+}
 
-function createToken(user: Array<UserDB>, isRefresh: boolean) {
+interface LogInSuccessState {
+  success: true;
+  message: string;
+  data: {
+    userName: string;
+    userId: number;
+    accessToken: string;
+    refreshToken: string;
+  };
+}
+
+interface LogInFailedState {
+  success: false;
+  message: string;
+}
+
+type LogInState = LogInFailedState | LogInSuccessState;
+
+
+export class AuthService extends UserQuery {
+  userDb: UserQuery;
+  constructor() {
+    super();
+    this.userDb = new UserQuery();
+  }
+
+  public async logIn(
+    email: string,
+    password: string,
+  ): Promise<LogInState> {
+    const errObject: LogInFailedState = {
+      success: false,
+      message: "Incorrect credentials",
+    };
+    const user = await this.userDb.getByEmail(email);
+    if (user.length == 0) return errObject;
+
+    const isValidPassword = await bcrypt.compare(password, user[0].password);
+
+    if (!isValidPassword) return errObject;
+
+    const accessToken = createToken(user, false);
+    const refreshToken = createToken(user, true);
+
+    return {
+      success: true,
+      message: "Successfully logged in",
+      data: {
+        userName: user[0].username,
+        userId: user[0].id,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      },
+    };
+  }
+  public async register(username: string, email: string, password: string) {
+    // check if the username already exists in the database
+    const user = await this.userDb.getByUsername(username);
+    if (user.length != 0) {
+      return false;
+    }
+      
+    const hash_password = await bcrypt.hash(password, saltRounds);
+    await this.userDb.add(username, email, hash_password);
+    return true;
+  }
+
+}
+
+function createToken(user: Array<UserDB>, isRefreshToken: boolean) {
   let expiration_time: number = 900;
-  if (isRefresh) expiration_time = 10*10*9*8*7*12;
-  
+  if (isRefreshToken) expiration_time = 10 * 10 * 9 * 8 * 7 * 12;
+
   const token = jwt.sign(
     {
       sub: user[0].id,
@@ -23,56 +94,3 @@ function createToken(user: Array<UserDB>, isRefresh: boolean) {
   );
   return token;
 }
-
-const saltRounds = 12;
-const app = express.Router();
-
-
-app.delete("/session", async (req, res) => {
-  console.log("/session DELETE REQUEST");
-  res
-    .clearCookie("jwt", { httpOnly: true, sameSite: 'lax' })
-    .clearCookie("username", {sameSite: 'lax'})
-    .clearCookie("user_id", {sameSite: 'lax'});
-  res.status(200).json({
-    message: "Session terminated successfully",
-  });
-});
-
-app.post("/session", async (req, res) => {
-  console.log("/session POST REQUEST");
-  const rows = await db.getUserByEmail(req.body.email);
-  console.log(rows);
-  if (rows.length == 0) return res.sendStatus(401);
-
-  const valid_password = await bcrypt.compare(
-    req.body.password,
-    rows[0].password,
-  );
-  if (!valid_password) return res.sendStatus(401);
-  const access_token = createToken(rows, false);
-  const refresh_token = createToken(rows, true);
-  res
-    .status(201)
-    .cookie("jwt", access_token, { httpOnly: true, sameSite: 'lax'})
-    .cookie("refresh_token", refresh_token, {httpOnly: true, sameSite: 'lax'})
-    .cookie("username", rows[0].username, {sameSite: 'lax'})
-    .cookie("user_id", rows[0].id, {sameSite: 'lax'})
-    .json({
-      message: "Authentication was successful!",
-    });
-});
-
-app.post("/users", async (req, res) => {
-  console.log("/USERS POST REQUEST");
-  // check if the username already exists in the database
-  const user = await db.getUserByUsername(req.body.username);
-  if (user.length > 0)
-    return res.status(403).json({ message: "This username already exists" });
-
-  const hash_password = await bcrypt.hash(req.body.password, saltRounds);
-  await db.addUser(req.body.username, req.body.email, hash_password);
-  res.status(201).json({ message: "User registered successfully" });
-});
-
-export default app;
